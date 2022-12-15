@@ -14,9 +14,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("https://bestappchat.netlify.app/api/user", userRoutes);
-app.use("https://bestappchat.netlify.app/api/chat", chatRoutes);
-app.use("https://bestappchat.netlify.app/api/message", messageRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 const Server = app.listen(
   Number(process.env.PORT),
