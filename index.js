@@ -8,39 +8,36 @@ const chatRoutes = require("./Router/chatRoutes.js")
 const messageRoutes = require("./Router/messageRoutes.js")
 const createServer = require("http");
 const { use } = require('./Router/userRoutes.js');
-
+const path = require('path')
 
 dotenv.config()
-
 dbConnect()
 const app = express();
 app.use(express.json())
 app.use(cors())
 
 
-
-
-// app.get('/api/chat/:id', (req, res)=> {
-//     const singleChat = chats.find((item)=> item._id === req.params.id);
-//         res.send(singleChat);
-// });
-
 app.use("/api/user", userRoutes)
 app.use("/api/chat", chatRoutes)
 app.use("/api/message", messageRoutes)
 
+// //--------------Deploy---------------------
+
+// const __dirname1 = path.resolve()
+
+// if(process.env.NODE_ENV === 'production'){
+//     app.user(exress.static(path.join(__dirname, "")))
+
+
+//     app.get('*', (req, res)=> {
+//         res.sendFile("Back is running")
+//     })
+// }
+
+
+
 const Server = app.listen(process.env.PORT,
     console.log("Servidor no Ar"))
-
-
-// const io = require("socket.io")(Server, {
-//     pingTimeout: 60000,
-//     cors: {
-//         origin: "http://localhost:3006",
-//         credentials: true,
-//     }
-    
-// })
 
 const io = require('socket.io')(Server, {
     pingTimeout: 60000,
