@@ -1,6 +1,5 @@
 const express = require("express");
 const dotenv = require("dotenv");
-
 const cors = require("cors");
 const { dbConnect } = require("./Config/Bd.config.js");
 const userRoutes = require("./Router/userRoutes.js");
@@ -9,16 +8,15 @@ const messageRoutes = require("./Router/messageRoutes.js");
 const createServer = require("http");
 const { use } = require("./Router/userRoutes.js");
 const path = require("path");
-
 dotenv.config();
 dbConnect();
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/user", userRoutes);
-app.use("/api/chat", chatRoutes);
-app.use("/api/message", messageRoutes);
+app.use("https://bestappchat.netlify.app/api/user", userRoutes);
+app.use("https://bestappchat.netlify.app/api/chat", chatRoutes);
+app.use("https://bestappchat.netlify.app/api/message", messageRoutes);
 
 const Server = app.listen(
   Number(process.env.PORT),
