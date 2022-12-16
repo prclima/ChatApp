@@ -18,10 +18,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-const Server = app.listen(
-  Number(process.env.PORT),
-  console.log("Servidor no Ar")
-);
+const Server = app.listen(process.env.PORT, console.log("Servidor no Ar"));
 
 const io = require("socket.io")(Server, {
   pingTimeout: 60000,
