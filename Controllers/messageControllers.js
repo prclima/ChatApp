@@ -2,22 +2,22 @@ const Chat = require("../Models/Chat.model.js");
 const User = require("../Models/User.model.js");
 const Message = require("../Models/Message.model.js");
 
-
-
-
-
 async function sendMessage(req, res) {
-  let newMessage;
-  let message;
-  const { content, chatId } = req.body;
-  newMessage = {
-    sender: req.user._id,
-    content: content,
-    chat: chatId,
-  };
+  const teste = req.user._id;
+  const userIDFind = new String(teste).toString();
+
   try {
-     message = await Message.create(newMessage);
-    console.log(req.user._id)
+    let newMessage;
+    let message;
+    const { content, chatId } = req.body;
+    newMessage = {
+      sender: userIDFind,
+      content: content,
+      chat: chatId,
+    };
+    // console.log(req);
+    message = await Message.create(newMessage);
+
     message = await message.populate("sender", "name");
     message = await message.populate("chat");
     message = await User.populate(message, {
@@ -40,7 +40,6 @@ async function allMessages(req, res) {
       .populate("sender", "name")
       .populate("chat");
     res.json(messages);
-    
   } catch (err) {
     console.log(err);
   }

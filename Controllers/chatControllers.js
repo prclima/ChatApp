@@ -5,36 +5,35 @@ let chatData = {};
 let users;
 
 async function acessChat(req, res) {
-  const  {userId}  = req.body
-  
+  const teste = req.user._id;
+  const userIDFind = new String(teste).toString();
+
+  const { userId } = req.body;
+
   let isChat = await Chat.find({
     isGroupChat: false,
     $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
+      { users: { $elemMatch: { $eq: userIDFind } } },
       { users: { $elemMatch: { $eq: userId } } },
     ],
-    
   })
     .populate("users", "-password")
     .populate("latestMessage");
-    
+
   isChat = await User.populate(isChat, {
-    
     path: "latestMessage.sender",
     select: "name email",
   });
-  if (isChat.length > 0) {
-     (isChat[0]);
+  if (isChat.length < 0) {
+    isChat[0];
   } else {
-    
     chatData = {
       chatName: "sender",
       isGroupChat: false,
-      users: [req.user._id, userId],
+      users: [userIDFind, userId],
     };
   }
   try {
-
     const createdChat = await Chat.create(chatData);
     const FullChat = await Chat.findOne({ _id: createdChat.id }).populate(
       "users",
@@ -48,9 +47,10 @@ async function acessChat(req, res) {
 
 async function fetchChats(req, res) {
   const { userId } = req.body;
-
+  const teste = req.user._id;
+  const userIDFind = new String(teste).toString();
   try {
-    Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+    Chat.find({ users: { $elemMatch: { $eq: userIDFind } } })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
@@ -66,6 +66,4 @@ async function fetchChats(req, res) {
   }
 }
 
-
-
-module.exports = { acessChat, fetchChats};
+module.exports = { acessChat, fetchChats };
